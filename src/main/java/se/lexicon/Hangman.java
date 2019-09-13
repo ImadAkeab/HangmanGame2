@@ -29,7 +29,7 @@ public class Hangman{
     public void askPlayerToGuess(int numberOfGuesses){
         System.out.println("\nGuess a letter"+ ", you have "+numberOfGuesses +" left");
     }
-    public void checkGussLetter(String  letter) {
+    public boolean checkGussLetter(String  letter) {
         boolean letterIsExist=false;
         for (int i = 0; i < secretWord.length(); i++) {
             if (secretWord.charAt(i)==letter.charAt(0))
@@ -48,9 +48,10 @@ public class Hangman{
             System.out.println("The letter is not in the secret word");
             numOfFaultGuesses +=1;
         }
+        return letterIsExist;
     }//End method
 
-    public boolean isPlayerWin(String inputUser) {
+    public boolean isPlayerWin(int numOfExistedLetters) {
         if (numOfExistedLetters==secretWord.length())
         { return true; }
         else {return false;}

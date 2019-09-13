@@ -9,27 +9,26 @@ public class App
 
     public static void main( String[] args )
     {
-        Player player=new Player();
-        player.play=true;
-        while (player.play) {
-            startGame(player);
-            DoYouPlayAgain(player);
+        boolean keepPlaying = true;
+
+        while (keepPlaying) {
+            startGame();
+            keepPlaying = DoYouPlayAgain();
         }
     }//End main
 
-    private static void DoYouPlayAgain(Player player) {
+    private static boolean DoYouPlayAgain() {
         System.out.println("Select 1 to play again and 2 to quit\n");
         int playerSelect=scanner.nextInt();
         switch (playerSelect){
             case 1:
-                player.play=true ;
-                break;
+                return true;
             case 2:
-                player.play=false;
-                break;
+                return false;
         }
+        return false;
     }
-    public static void startGame(Player player){
+    public static void startGame(){
         Hangman hangman=new Hangman();
         StringBuilder alreadyGuessedLetters=new StringBuilder();
         int guessNum=0;
@@ -56,10 +55,10 @@ public class App
                     continue;
                 }
                 // Save guessed letters in a string.
-                alreadyGuessedLetters.insert(guessNum,inputUser);
+                alreadyGuessedLetters.append(inputUser).append(' ');
                 // check if the guessed letter is exist in the secret word.
                 hangman.checkGussLetter(inputUser);
-                if (hangman.isPlayerWin(inputUser)){
+                if (hangman.isPlayerWin(hangman.numOfExistedLetters)){
                     System.out.println("You win!");
                     break;
                 }
@@ -68,7 +67,7 @@ public class App
             {
                 // Word Check
                 if(hangman.secretWord.length()< inputUser.length()){
-                    System.out.println("the word is shorter than the secret tword");
+                    System.out.println("the word is shorter than the secret word");
                 }
                 else{
                     if (hangman.secretWord.contentEquals(inputUser)){
@@ -76,11 +75,9 @@ public class App
                         break;
                     }
                     else{
-                        System.out.println("Game is over");
-                        break;
+                        System.out.println("Incorrect guess");
                     }
                 }
-
 
             }
             guessNum++;
